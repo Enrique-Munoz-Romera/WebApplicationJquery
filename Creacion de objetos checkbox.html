@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Checkbox Generate</title>
+</head>
+<body>
+    <h1>Creacion de objetos Checkbox</h1>
+    <form>
+        <label>Selecciona nº de checkbox: </label>
+        <input type="range" min="1" max="10" value="1" step="1" id="rangoCheckbox"/>        
+        <span id="spanCheckbox"></span>
+        <div id="resultado"></div>
+    </form>
+    <div id="capa"></div>
+    <script src="JS/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var rango = $("#rangoCheckbox").change(function () {
+                var suma = 0;
+                $("#resultado").empty();
+                $("#capa").empty();
+                var valor = parseInt($(this).val());
+                console.log("valor del range " + valor);
+                $("#spanCheckbox").text(valor);
+                for (var i = 1; i <= valor; i++) {
+                    var input = $("<input>");
+                    input.attr("type", "checkbox");
+
+                    var aleat = Math.floor(Math.random() * 100);
+                    input.attr("value", aleat);
+
+                    input.click(function () {
+                        var valor = $(this).is(":checked");
+                        if (valor == true) {
+                            suma += parseInt($(this).val());
+                            $("#resultado").text(suma);
+                        } else {
+                            suma -= parseInt($(this).val());
+                            $("#resultado").text(suma);
+                        }
+                    });
+
+                    var label = $("<label>");
+                    label.text(aleat);
+
+                    $("#capa").append(input);
+                    $("#capa").append(label);
+                }
+            });            
+        });
+    </script>
+</body>
+</html>

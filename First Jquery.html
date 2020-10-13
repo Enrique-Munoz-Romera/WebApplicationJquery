@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .rojo{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="rojo">TITLE1</h1>
+    <h2 calss="rojo">TITLE3</h2>
+    <h1 class="rojo">TITLE2</h1>
+    <h2 id="titulo4">TITLE4</h2>
+    <script src="JS/jquery-3.5.1.min.js"></script> 
+    <script>
+        //Instrucciones para cuando ha cargado la pag
+            //esto es un codigo js & jquery
+        $(document).ready(function () {
+             //podemos utilizar cualquier instruccion de js
+            // alert("Jquery cargando");
+            // todo funciona con selectore
+            //existen selectores de etique y funcionan
+            //como conjunto. actuan sonbre todos los objetos
+            //p,h1,div
+            //podemos asignar eventos a un conjunto mediante sus slecctore al pulsas sobre cualquier h2 lo ocultamos
+            $("h2").click(function () {
+                //$("h2").hide()//oculta todos los elemntos, la palabra clave this accede al objeto que ha realixado la peticion del metodo 
+                //this debe escribirse como jquery, sino capturamos otro onjeto distinto de javascprit
+                //var js = this;//aqui no tenemos el h2, es js
+                //var jquery=$(this)//esto es jquery
+            });
+
+            $(".rojo").mouseover(function () {
+                $(this).fadeOut(5000);
+                //selector de clase
+            });
+
+            $("#titulo4").click(function () {
+                alert("pulsando");
+            });
+
+        });
+    </script>
+</body>
+</html>

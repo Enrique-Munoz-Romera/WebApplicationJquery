@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CrontolCreate</title>
+</head>
+<body>
+    <h1>Generar controles dinámicamente</h1>
+    <form>
+        <label>Contenido: </label>
+        <input type="text" id="cajacontenido" />
+        <button type="button" id="botoncreacion">
+            Crear título
+        </button>
+        <div id="padre"></div>
+    </form>
+    <script src="JS/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#botoncreacion").click(function () {
+                var texto = $("#cajacontenido").val();
+                //creamos el obj con varias lineas
+                //var h1 = $("<h1>");
+                //h1.text(texto);
+                //h1.css("background-color", "green");
+                //h1.css("color", "white");
+                //añadimos el obj parent
+                //$("#padre").append(h1);
+                //podemos crear el obj con sus propiedades
+                //en una sola linea. formato JSON
+                //var objeto = $("<tag>",{
+                //"text": "soy un texto", "style": "color:blue",....
+
+                var h1 = $("<h1>", {
+                    "texto": texto
+                    , "style": " bacground-color:blue ;color:white"
+                });
+                //podemos agregar del hijo al padre
+                h1.appendTo($("#padre"));
+                //si deseamos que los elemntos tengan eventos 
+                //tendremos que realizar metodos delegados(event handler)
+                //para el objeto creado.
+                //dos sintaxis: algo antigua, que podemos verla en algunos codigos
+                //y se utiliza on. listener
+                h1.on("click", function () {
+                    $(this).texto("texto cambiado");
+                });
+            });
+            //los eventos se activan sobre los obj creados
+            //Dinamicamente
+            //solamente entran en el juego de los eventos, los objetos 
+            //dibujados en la carga de la pagina
+            //$("h1").click(function () {
+            //    alert("Martes 13 ");
+            //});
+            //segunda sintaxis propia de Jquery
+            h1.click(function () {
+                $(this).trxt("cambiando...");
+            });
+        });
+    </script>
+</body>
+</html>
