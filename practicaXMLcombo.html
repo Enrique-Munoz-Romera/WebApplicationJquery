@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.addEventListener("load", function () {
+                if (this.status == 200 && this.readyState == 4) {
+                    var docxml = this.responseXML;
+                    var nodoalumnos = docxml.getElementsByTagName("alumno");
+                    var ul = document.createElement("ul");
+                    for (var nodo of nodoalumnos) {
+                        var nombre =
+                            nodo.getElementsByTagName("nombre")[0].textContent;
+                        var apellidos =
+                            nodo.getElementsByTagName("apellidos")[0].textContent;
+                        var nota =
+                            nodo.getElementsByTagName("nota")[0].textContent;
+                        var li = document.createElement("li");
+                        var link = document.createElement("a");
+                        link.href = "#";
+                        link.innerText = nombre;
+                        link.setAttribute("data-apellidos", apellidos);
+                        link.dataset.nota = nota;
+                        link.addEventListener("click", mostrarDatosAlumno);
+                        ul.appendChild(li).appendChild(link);
+                    }
+                    document.getElementById("capaalumnos")
+                        .appendChild(ul);
+                }
+            });
+            xhttp.open("get", "xml/alumnos.xml");
+            xhttp.send();
+        }
+
+        function mostrarDatosAlumno() {
+            var apellidos = this.dataset.apellidos;
+            var nota = this.getAttribute("data-nota");
+            document.getElementById("capadatos").innerHTML =
+                "<h1>" + this.innerText + " "
+                + apellidos + "</h1>";
+            document.getElementById("capadatos").innerHTML +=
+                "<h2 style='color:red'>Nota: " + nota + "</h2>";
+        }
+    </script>
+</head>
+<body>
+    <div id="capaalumnos"></div>
+    <hr />
+    <div id="capadatos"></div>
+</body>
+</html>

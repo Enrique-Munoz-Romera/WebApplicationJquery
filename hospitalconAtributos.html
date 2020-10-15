@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1> Atributos XML JQuery</h1>
+    <button type="button" id="botoncargar">
+        Cargar Hospitales
+    </button>
+    <hr />
+    <table border="1" id="tabla">
+        <thead>
+            <tr>
+                <th>NOMBRE</th>
+                <th>DIRECCION</th>
+                <th>TELEFONO</th>
+                <th>CAMAS</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="JS/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#botoncargar").click(function () {
+                $.get("xml/HOSPITAL_ATRIBUTOS.xml", function (data) {
+                    var hospitales = $(data).find("HOSPITAL");
+                    //recorremos todos los hospitales
+                    hospitales.each(function () {
+                        //capturamos los attr, .attr("NAME")
+                        var nombre = $(this).attr("NOMBRE");
+                        var direccion = $(this).attr("DIRECCION");
+                        var tlf = $(this).attr("TELEFONO");
+                        var camas = $(this).attr("NUM_CAMA");
+                        var tr = $("<tr>");
+                        var tdnom = $("<td>", { "text": nombre });
+                        var tddir = $("<td>", { "text": direccion });
+                        var tdtlf = $("<td>", { "text": tlf });
+                        var tdcamas = $("<td>", { "text": camas });
+                        //añadimos cada columna a la fial
+                        tr.append(tdnom);
+                        tr.append(tddir);
+                        tr.append(tdtlf);
+                        tr.append(tdcamas);
+                        $("#tabla tbody").append(tr);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

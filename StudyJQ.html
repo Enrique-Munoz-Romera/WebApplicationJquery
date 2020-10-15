@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Study of JQ</title>
+    <style>
+        .rojo {
+            background-color:darkgoldenrod;        
+        }
+        .blue {
+            background-color:blueviolet;        
+        }
+        .orange {
+            background-color: aqua;
+        }
+        #titulo4 {
+            background-color:orange;        
+        }
+
+        img {
+            width:80px;
+            height:80px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!--1º)Ejercicio de jq
+        esconder los titulos y darles un css
+        <div>
+            <h1 class="rojo">Titulo 1</h1>
+            <h2 class="blue">Titulo 2</h2>
+            <h1 class="orange">titulo 3</h1>
+            <h3 id="titulo4">titulo 4</h3>
+        </div>-->
+        <!--<div>
+            2º)ejercecio de JQuery.Sumar números
+            <label>Introduce el número que deseas: </label>
+            <input type="number" id="num1" /><br />
+            <label>Introduce el número que deseas: </label>
+            <input type="number" id="num2" /><br />
+            <p id="result"></p>
+            <button type="button" id="addNumbers">
+                Suma tus numeros
+            </button>
+        </div>-->
+        <!--<div>
+            3º)Ejercicio: Creamos <h1></h1>, le damos un css
+                se lo agregamos al padre, le agregamos un EventHandler.
+            <form>
+                <label>Contenido: </label>
+                <input type="text" id="cajaContenido" />
+                <button type="button" id="crearTitulo">
+                    Crear título
+                </button>
+            </form>
+            <div id="padre"></div>
+        </div>-->
+        <!--<div>
+            4º)Ejercicio: Tendremos un rango dónde indicaremos
+                el número de imágenes a dibujar.
+                Al pasar sobre una imagen determinada,cambiamos la imagen por otra.
+            <form>
+                <fieldset>
+                    <legend>Jquery execution control</legend>
+                    <h1>Ejecución de JQuery</h1>
+                    <label>Número de imagenes: </label>
+                    <input type="range" id="rangoImagenes" min="1" max="15" step="1" />
+                    <span id="spanImagenes"></span>
+                </fieldset>
+            </form>
+            <div id="createImages"></div>
+        </div>-->
+        <div>
+
+        </div>
+        <script src="JS/jquery-3.5.1.min.js"></script>
+        <!--<script>
+            1º)Ejercicio
+            $(document).ready(function () {
+                console.log("escondemos los <h1> ");
+                $("h1").hide(3000);
+                $("h2").fadeOut(5000);
+                $("#titulo4").mouseover(function () {
+                    $(this).css("color", "red");
+                });
+                $("#titulo4").mouseout(function () {
+                    alert("Cargando JQuery... ");
+                });
+            });
+        </script>-->
+        <!--<script>
+            2º)Ejercicio
+            $(document).ready(function () {
+                $("#addNumbers").click(function () {
+                 console.log("capturamos el boton " + this);
+                 var num1 = $("#num1").val();
+                 console.log("recogemos el valor del primer número : " + num1);
+                    var num2 = $("#num2").val();
+                    var suma = parseInt(num1) + parseInt(num2);
+                    $("#result").text(suma);
+                    $("#result").css("color", "darkred");
+
+                });
+            });
+        </script>-->
+        <!--<script>
+            3º)Ejercecio
+            $(document).ready(function () {
+                $("#crearTitulo").click(function () {
+                    console.log("get the button");
+                    var cajaContenido = $("#cajaContenido").val();
+                    console.log("get value of input " + cajaContenido);
+                    var h1 = $("<h1>");
+                    h1.text(cajaContenido);
+                    h1.css("background-color", "black");
+                    h1.css("color", "silver");
+                    $("#padre").append(h1);
+                    h1.click(function () {
+                        $(this).text("cambiando...");
+                        $(this).css("background-color", "blue");
+                        $(this).css("color", "white");
+                    });
+
+                });
+            });
+        </script>-->
+        <!--<script>
+            $(document).ready(function () {
+                $("#rangoImagenes").change(function () {
+                    console.log("get the button");
+                    $("#createImages").empty();
+                    console.log("get the div ");
+                    var valor = parseInt($(this).val());
+                    console.log("get the value " + valor);
+                    $("#spanImagenes").text(valor);
+                    for (var i = 1; i <= valor; i++) {
+                        var imagen = $("<img>");
+                        imagen.attr("src", "JS/images/640px-Spiderman.jpg");
+                        $("#createImages").append(imagen);
+                        imagen.mouseover(function () {
+                            $(this).attr("src", "JS/images/venom.jpg");
+                        });
+                        imagen.mouseout(function () {
+                            $(this).attr("src", "JS/images/S2.jpg");
+                        });
+                    }
+                });
+            });
+        </script>-->
+        <script>
+
+        </script>
+    </div>
+</body>
+</html>

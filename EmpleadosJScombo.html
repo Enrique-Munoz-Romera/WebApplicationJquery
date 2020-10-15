@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>empleadosJScombo</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.addEventListener("load", function () {
+                //aqui el codigo cuando tengamos respuesta del servidor
+                //AQUI CARGAMOS EL CONTROL <SELECT>
+                if (this.readyState == 4 && this.status == 200) {
+                    //buscamos el select
+                    var select = document.getElementById("selectempleados");
+                    var nodosapellidos = this.responseXML.getElementsByTagName("APELLIDO");
+                    console.log( "1º)readyStatus :" + this.readyState);
+                    for (var nodoape of nodosapellidos) {
+                        var apellido = nodoape.textContent;
+                        var option = document.createElement("option");
+                        option.innerText = apellido;
+                        option.value = apellido;
+                        select.appendChild(option);
+                    }
+                }
+            });
+            xhttp.open("GET", "xml/datosempleados.xml");
+            xhttp.send();
+        }
+
+        function realizarPeticion() {
+            var xhttp = new XMLHttpRequest();
+            console.log("realizamos la peticion: " + xhttp);
+            xhttp.addEventListener("load", leerDatosEmpleado);
+            xhttp.open("GET", "xml/datosempleados.xml");
+            xhttp.send();            
+        }
+
+        function leerDatosEmpleado() {
+            console.log("funcion leer datos: ");
+            if (this.readyState == 4 && this.status == 200) {
+                //necesitamos averiguar el option seleccionado del select
+                var select = document.getElementById("selectempleados");
+                var posicion = -1;
+                //necesitamos la posicion del elemento selecciona
+                for (var i = 0; i < select.options.length; i++) {
+                    var opt = select.options[i];
+                    if (opt.selected == true) {
+                        posicion = i;
+                        break;
+                    }
+                }
+                //nos centramos en el documento xml
+                var docxml = this.responseXML;
+                var nodosempleados = docxml.getElementsByTagName("EMPLEADO");
+                var empleado = nodosempleados[posicion];
+                //con childNodes[] accedemos a los hijos y tambien con getElementsByTagName
+                var apellido = empleado.getElementsByTagName("APELLIDO")[0].textContent;
+                var oficio = empleado.getElementsByTagName("OFICIO")[0].textContent;
+                document.getElementById("datooficio").innerText = 
+                    + apellido + "," + oficio;
+
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <h1>Busqueda empleados js select</h1>
+    <form name="formulario">
+        <label>Selecciona un empleado: </label>
+        <select id="selectempleados" onchange="realizarPeticion()"></select>
+        <h1 id="datooficio" style="color:darkblue"></h1>
+    </form>
+</body>
+</html>
