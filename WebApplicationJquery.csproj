@@ -70,6 +70,9 @@
     <Content Include="AddBoxJQuery.html" />
     <Content Include="Creacion de objetos checkbox.html" />
     <Content Include="CreaciondeControles.html" />
+    <Content Include="DocumentoCompuestoJSON.html" />
+    <Content Include="documentosJsonJscript.html" />
+    <Content Include="documentossimplesjson.html" />
     <Content Include="EjemploEach.html" />
     <Content Include="EmpleadosJScombo.html" />
     <Content Include="empleadossimplejquery.html" />
@@ -81,6 +84,7 @@
     <Content Include="JS\images\black-panther2.jpg" />
     <Content Include="JS\images\S2.jpg" />
     <Content Include="JS\jquery-3.5.1.min.js" />
+    <Content Include="jugadoresJQueryAjax.html" />
     <Content Include="practicaXMLcombo.html" />
     <Content Include="StudyJQ.html" />
     <Content Include="SumarNumerosCajas.html" />
@@ -94,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JS\tareas.json" />
+    <Content Include="JS\clientessimples.json" />
+    <Content Include="JS\jugadores.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

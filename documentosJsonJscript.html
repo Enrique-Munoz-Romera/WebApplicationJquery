@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <h1>Documentos JSON XMLHttpRequest</h1>
+        <button type="button" onclick="realizarPeticion()">
+            Leer con JS
+        </button>
+        <div id="resultado"></div>
+    </div>
+    <script type="text/javascript">
+        function realizarPeticion() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.readyState);
+                    //Aqui capturamos la respuesta
+                    //convertimos el obj texto plano a JSON
+                    var textoplano = this.responseText;
+                    //ahora convertimos el texto plano a JSON para tratarlo
+                    var data = JSON.parse(textoplano);
+                    leerDatosjson(data);
+                }
+             
+            }
+            //lo que indica true es que deseamos la peticion asincrona
+            xhr.open("GET", "JS/clientessimples.json", true);
+            xhr.send();
+        }
+
+        function leerDatosjson(data) {
+            //los objetos JSON son iguales, vienen de JavaScript
+            //y se manejan igual que con JQuery
+            for (var i = 0; i < data.clientes.length; i++) {
+                var h1 = document.createElement("h1");
+                //capturamos cada cliente
+                var cliente = data.clientes[i];
+                h1.innerText = cliente.nombre;
+                document.getElementById("resultado")
+                    .appendChild(h1);
+            }
+        }
+    </script>
+</body>
+</html>

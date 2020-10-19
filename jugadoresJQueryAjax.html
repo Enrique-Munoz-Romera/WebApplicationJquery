@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Jugadores Jquery Ajax Json</h1>
+    <form>
+        <label>Seleccione jugador: </label>
+        <select id="selectjugador"></select>
+    </form>
+    <div id="resultado"></div>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            cargarJugadores();
+            $("#selectjugador").change(function () {
+                $("#resultado").empty();
+                //var index = $(this).val();
+                //PODRIAMOS RECUPERAR DIRECTAMENTE MEDIANTE LA PROPIEDAD
+                //selectedIndex DEL <select>
+                var index = $(this).prop("selectedIndex");
+                console.log(index);
+                $.ajax({
+                    "url": "JS/jugadores.json"
+                    , "method": "GET"
+                    , success: function (data) {
+                        var jugador = data.jugadores[index];
+                        $("#resultado").append($("<h1>", { "text": jugador.nombre }))
+                            .append($("<h2>", { "text": jugador.posicion }))
+                            .append($("<h2>", { "text": "Edad " + jugador.edad }))
+                            .append($("<img>", { "src": jugador.imagen }));
+                    }
+                });
+            });
+        });
+
+        function cargarJugadores() {
+            $.ajax({
+                "url": "JS/jugadores.json"
+                , "method": "GET"
+                , "success": function (data) {
+                    $.each(data.jugadores, function (index, jugador) {
+                        var nombre = jugador.nombre;
+                        var option = $("<option>", {
+                            "text": nombre
+                            , "value": index
+                        });
+                        $("#selectjugador").append(option);
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
