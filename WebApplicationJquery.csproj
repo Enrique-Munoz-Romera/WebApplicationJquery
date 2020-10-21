@@ -70,6 +70,7 @@
     <Content Include="AddBoxJQuery.html" />
     <Content Include="Creacion de objetos checkbox.html" />
     <Content Include="CreaciondeControles.html" />
+    <Content Include="CrudHospitales.html" />
     <Content Include="DocumentoCompuestoJSON.html" />
     <Content Include="documentosJsonJscript.html" />
     <Content Include="documentossimplesjson.html" />
@@ -79,12 +80,14 @@
     <Content Include="First Jquery.html" />
     <Content Include="GenerateImgs.html" />
     <Content Include="hospitalconAtributos.html" />
+    <Content Include="JQueryStudy.html" />
     <Content Include="JS\images\640px-Spiderman.jpg" />
     <Content Include="JS\images\black-panther.jpg" />
     <Content Include="JS\images\black-panther2.jpg" />
     <Content Include="JS\images\S2.jpg" />
     <Content Include="JS\jquery-3.5.1.min.js" />
     <Content Include="jugadoresJQueryAjax.html" />
+    <Content Include="MaestroDetalle.html" />
     <Content Include="practicaXMLcombo.html" />
     <Content Include="StudyJQ.html" />
     <Content Include="SumarNumerosCajas.html" />

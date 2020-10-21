@@ -1,0 +1,96 @@
+﻿CODIGO HTML
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CRUD</title>
+</head>
+<body>
+    <h1>Maestro detalle Servicios Api JQuery</h1>
+    <table id="tabladept" border="1">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <hr />
+    <table id="tablaemp" border="1">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urldept = "https://apicruddepartamentoscore.azurewebsites.net/";
+            var request = "/api/departamentos";
+            $.ajax({
+                url: urldept + request
+                , type: "GET"
+                , success: function (data) {
+                    $.each(data, function (index, dept) {
+                        var id = dept.numero;
+                        var tr = $("<tr>");
+                        var tdnum = $("<td>", { text:  id});
+                        var tdnom = $("<td>", { text: dept.nombre });
+                        var tdloc = $("<td>", { text: dept.localidad });
+                        //AÑADIMOS CADA COLUMNA (td) A LA FILA (tr)
+                        tr.append(tdnum);
+                        tr.append(tdnom);
+                        tr.append(tdloc);
+                        $("#tabladept tbody").append(tr);
+                        //< a href="#" data-iddept="10">Empleados</a>
+                        var link = $("<a>", {
+                            "href": "#"
+                            , "data-iddept": id
+                            , "text": "Empleados"
+                        });
+                        tr.append($("<td>").append(link));
+                        //ASOCIAMOS UN EVENT HANDLER A CADA LINK
+                        link.click(function () {
+                            //NECESITAMOS EL data-iddept ASOCIADO
+                            //A CADA ENLACE this
+                            var iddept = $(this).data("iddept");
+                            //console.log(iddept);
+                            var urlemp = "https://apiempleadosspgs.azurewebsites.net/";
+                            var request = "/api/Empleados/EmpleadosDepartamento/" + iddept;
+                            $.ajax({
+                                url: urlemp + request
+                                , type: "GET"
+                                , success: function (data) {
+                                    //COMO NO VAMOS A REALIZAR ACCIONES
+                                    //SOBRE LOS OBJETOS DINAMICOS
+                                    //HACEMOS EL DIBUJO CON String
+                                    var html = "";
+                                    $.each(data, function (index, emp) {
+                                        html += "<tr>";
+                                        html += "<td>"
+                                            + emp.apellido + "</td>"
+                                            + "<td>" + emp.oficio + "</td>"
+                                            + "<td>" + emp.salario + "</td>"
+                                            + "<td>" + emp.departamento + "</td>";
+                                        html += "</tr>";
+                                    });
+                                    $("#tablaemp tbody").html(html);
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
