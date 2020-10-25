@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <h1>Creacion de Objetos</h1>
+        <form>
+            <label>Numero: </label>
+            <input type="number" id="cajaNum" />
+            <button type="button" id="botonDoble">
+                Multiplicar
+            </button>
+        </form>
+        <h2 id="resultado" style="color:dodgerblue"></h2>
+    </div>
+    <script src="JS/jquery-3.5.1.min.js"></script>
+    <script src="objetoMatematicas.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#botonDoble").click(function(){
+                var num = parseInt($("#cajaNum").val());
+                //creamos el obj.matematicas
+                var mates = new Matematicas(num);
+                console.log("numero doble: " + mates.doble);
+                //llamamos al metodo para guardar el doble en obj.mates
+                mates.generarDoble();
+                $("#resultado").text("Numero original: "
+                    + mates.numero + ", Doble: " + mates.doble);
+            });
+        });
+    </script>
+</body>
+</html>

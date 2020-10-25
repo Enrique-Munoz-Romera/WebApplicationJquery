@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Crud Employees</title>
+    <style>
+        body {
+            background-color: #3aa9d1;
+            font-family:'Bookman Old Style';
+            text-align:center;
+            font-weight: 200;
+        }
+
+        div {
+            display:flex;
+            flex-flow: column wrap;
+            font-size:18px;
+        }
+
+        h1 {
+            color: #150475;           
+        }
+
+        form {
+            display: flex;
+            flex-flow: row wrap;             
+            color: white;
+            font-weight:bold;
+        }
+
+        table {
+            text-align: center;
+            border-collapse: collapse;
+            border-bottom-left-radius: 3px;
+            background-color: #1c596e;
+            color: white;
+            box-shadow: 13px 13px 143px 33px rgba(0,0,0,0.8);
+        }
+        thead {
+            background-color: #287994;
+            font-size: 23px;
+            font-weight: bold;
+            
+            /*box-shadow: 10px 13px 138px 24px rgba(0,0,0,0.8)*/
+        }        
+
+        a {
+            text-decoration:none;
+            color:white;
+        }
+
+            a:hover {
+                color: #07b382;
+            }
+
+        button {
+            background-color: #072952;
+            font-weight: bold;
+            color: white;
+        }
+
+       
+       
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Employees CRUD</h1>
+        <form>
+            <label>Numero: </label>
+            <input type="number" id="boxNumDept" placeholder="50" pattern="\d{2}" /><br />
+            <label>Nombre: </label>
+            <input type="text" id="boxNamDept" placeholder="DIRECCION" pattern="[A-Z]"/><br />
+            <label>Localidad: </label>
+            <input type="text" id="boxLocDept" placeholder="VALENCIA" pattern="[A-Z]"/><br />
+            <button type="button" id="buttonPost">Insertar</button>
+            <button type="button" id="buttonPut">Modificar</button>
+            <button type="button" id="buttonDelete">Eliminar</button>
+            <div id="resultado"></div>
+        </form>
+        <table id="tableDepartament">
+            <thead>
+                <tr>
+                    <td>Numero</td>
+                    <td>Nombre</td>
+                    <td>Localidad</td>
+                    <td>Acción</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <hr />
+        <table id="tableEmployees">
+            <thead>
+                <tr>
+                    <td>Surname</td>
+                    <td>Job</td>
+                    <td>Salary</td>
+                    <td>Departament</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="JS/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urlApiDept = "https://apicruddepartamentoscore.azurewebsites.net/";
+            var request = "api/departamentos/";
+            console.log("get: " + request);
+            $.ajax({
+                url: urlApiDept + request
+                , type: "GET"
+                , success: function (data) {
+                    console.log("GET AJAX ");
+                    $.each(data,function (index, dept) {
+                        console.log("each: ");
+                        var idCommon = dept.numero;
+                        var tr = $("<tr>");
+                        var tdNum = $("<td>", { text: idCommon });
+                        var tdNam = $("<td>", { text: dept.nombre });
+                        var tdLoca = $("<td>", { text: dept.localidad });
+                        var tdLink = $("<a>", {
+                            "href": "#"
+                            , "data-idCommon": idCommon
+                            , "text": "Employee"
+                        });
+                        console.log("link create ");
+                        tr.append(tdNum);
+                        tr.append(tdNam);
+                        tr.append(tdLoca);
+                        tr.append(tdLink);
+                        $("#tableDepartament tbody").append(tr);
+                        tdLink.click(function () {
+                            var tdLink = $(this).data("idCommon");
+                            console.log("Event: " + this);
+                            var urlApiEmployee = "https://apiempleadosspgs.azurewebsites.net";
+                            var request = "/api/Empleados/EmpleadosDepartamento/"+ idCommon;
+                            console.log("request: " + request);
+                            $.ajax({
+                                url: urlApiEmployee + request
+                                , type: "GET"
+                                , success: function (data) {
+                                     $("#tableEmployees tbody").empty();
+                                    $.each(data, function (index, emp) {
+                                        var idemp = emp.departamento;
+                                        var tr = $("<tr>");
+                                        var tdSur = $("<td>", { text: emp.apellido });
+                                        var tdJob = $("<td>", {text: emp.oficio});
+                                        var tdSalary = $("<td>", { text: emp.salario });
+                                        var tdDept = $("<td>", { text: emp.departamento });
+                                        var buttonDelete = $("<button>", {
+                                            text: "Eliminar",
+                                            type: "button",
+                                            id: "delete",
+                                            "data-emp":emp.departamento
+                                        });
+                                        var tdbutton = $("<td>").append(buttonDelete);
+                                        tr.append(tdSur);
+                                        tr.append(tdJob);
+                                        tr.append(tdSalary);
+                                        tr.append(tdDept);
+                                        tr.append(tdbutton);
+                                        $("#tableEmployees tbody").append(tr);                                        
+                                    });
+                                }
+                            });
+                        });
+                    });
+                    $("#buttonPost").click(function () {
+                        console.log("button");
+                        var boxNum = $("#boxNumDept").val();
+                        var boxNam = $("#boxNamDept").val();
+                        var boxLoc = $("#boxLocDept").val();
+
+                        var request = "/api/departamentos";
+
+                        var departament = new Object();
+                        console.log("objetc create");
+                        departament.numero = parseInt(boxNum);
+                        departament.nombre = boxNam;
+                        departament.localidad = boxLoc;
+
+                        var json = JSON.stringify(departament);
+                        console.log("json: " + json);
+
+                        $.ajax({
+                            "url": urlApiDept + request,
+                            "type": "POST",
+                            "data": json,
+                            "contentType": "application/json",
+                            "success": function (data) {
+                                var request = "api/departamentos/";
+                                console.log("request: " + request);
+
+                                $.getJSON(urlApiDept + request, function (data) {
+                                    console.log("getjson: " + urlApiDept + request);
+                                    var html = "";
+                                    $.each(data, function (index,dato) {
+                                        html += "<tr>";
+                                        html += "<td>" + dato.numero;
+                                        console.log("NUMERO: " + dato.numero);
+                                        html += "<td>" + dato.nombre;
+                                        console.log("NOMBRE: " + dato.nombre);
+                                        html += "<td>" + dato.localidad;
+                                        console.log("LOCALIDAD: " + dato.localidad);
+                                        console.log("html: " + html);
+                                    });
+                                        $("#tableDepartament tbody").html(html);
+                                        $("#resultado").text("Muchas gracias por insertar un nuevo departamento");                                    
+                                });
+                            }
+                        });
+                    });
+                    $("#buttonPut").click(function () {
+                        var boxNum = parseInt($("#boxNumDept").val());
+                        var boxNam = $("#boxNamDept").val();
+                        var boxLoc = $("#boxLocDept").val();
+
+                        var request = "api/departamentos";
+                        console.log("api/request: " + request);
+
+                        var departament = new Object();
+                        departament.numero = boxNum;
+                        departament.nombre = boxNam;
+                        departament.localidad = boxLoc;
+                        console.log("generate objectPUT: " + departament);
+
+                        var json = JSON.stringify(departament);
+
+                        $.ajax({
+                            "url": urlApiDept + request,
+                            "type": "PUT",
+                            "data": json,
+                            "contentType": "application/json",
+                            "success": function (data) {
+                                var request2 = "api/departamentos";
+                                $.getJSON(urlApiDept + request2, function (data) {
+                                    console.log("getjson: " + urlApiDept + request2);
+                                    var html = "";
+                                    $.each(data, function (index, dato) {
+                                        html += "<tr>";
+                                        html += "<td>" + dato.numero;
+                                        html += "<td>" + dato.nombre;
+                                        html += "<td>" + dato.localidad;
+                                    });
+                                    $("#tableDepartament tbody").html(html);
+                                    $("#resultado").text("Muchas gracias por modificar el departamento"); 
+                                });
+                            }
+                        });
+                    });
+                    $("#buttonDelete").click(function () {
+                        var boxNum = parseInt($("#boxNumDept").val());
+                        var boxNam = $("#boxNameDept").val();
+                        var boxLoc = $("#boxLocDept").val();
+
+                        var request = "/api/departamentos/" + boxNum;
+
+                        var departament = new Object();
+                        departament.numero = boxNum;
+                        departament.nombre = boxNam;
+                        departament.localidad = boxLoc;
+                        console.log("generate object delete: " + departament);
+
+                        var json = JSON.stringify(departament);
+
+                        $.ajax({
+                            "url": urlApiDept + request,
+                            "type": "DELETE",
+                            "data": json,
+                            "contenType": "application/json",
+                            "success": function (data) {
+                                var request2 = "api/departamentos/";
+                                console.log("delete: " + boxNum)
+                                $.getJSON(urlApiDept + request2, function (data) {
+                                    console.log("getjsonDElete: " + urlApiDept + request2);
+                                    var html = "";
+                                    $.each(data, function (index, dato) {
+                                        html += "<tr>";
+                                        html += "<td>" + dato.numero;
+                                        html += "<td>" + dato.nombre;
+                                        html += "<td>" + dato.localidad;
+                                    });
+                                    $("#tableDepartament tbody").html(html);
+                                    $("#resultado").text("Muchas gracias por modificar el departamento");
+                                });
+                            }
+                        });
+                    });
+                }
+            });            
+        });
+    </script>
+</body>
+</html>
