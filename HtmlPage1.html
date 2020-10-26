@@ -104,7 +104,20 @@
                             var tdBody2 = $("<td>", { text: dato.resultado });
                             var tdBody3 = $("<td>", { text: dato.fecha });
                             var tdBody4 = $("<td>");
-                            var aBody4 = $("<a>", {text: "Eliminar apuesta", "data-idApuesta": dato.idApuesta, href: "#"});
+                            var aBody4 = $("<a>", { text: "Eliminar apuesta", "data-idApuesta": dato.idApuesta, href: "#" });
+
+                            aBody4.click(function () {
+                                var idApuesta = $(this).data("idApuesta");
+                                var request5 = "api/Apuestas/" + idApuesta;
+                                $.ajax({
+                                    "url": urlApiDept + request5
+                                    , "type": "DELETE"
+                                    , "success": function (data) {
+                                        var p = $("<p>", { text: "Apuesta eliminada correctamente" });
+                                        $("#apuestas").append(p);
+                                    }
+                                });
+                            });
 
                             $(trBody).append(tdBody1);
                             $(trBody).append(tdBody2);
