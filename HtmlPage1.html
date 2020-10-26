@@ -22,62 +22,114 @@
         </div>
         <div id="apuestas">
             <h1>Página de apuestas</h1>
+            <h3> Local: Real Madrid, Visitante: Atlético de Madrid</h3>
+            <button id="apuestasBtn">Realizar apuesta</button>
         </div>
         <script src="JS/jquery-3.5.1.min.js"></script>
         <script>
-        $(document).ready(function () {
-            var urlApiDept = "https://apichampions.azurewebsites.net/";
-            var request = "api/Equipos/";
-            console.log("get: " + request);
+            $(document).ready(function () {
+                var urlApiDept = "https://apichampions.azurewebsites.net/";
+                var request = "api/Equipos/";
+                console.log("get: " + request);
 
-            $.ajax({
-                url: urlApiDept + request
-                , type: "GET"
-                , success: function (data) {
-                    console.log("GET AJAX ");
-                    $.each(data,function (index, dept) {
-                        console.log("each: ");
-                        var option = $("<option>", { text: dept.nombre, value: dept.idEquipo });
-                        $("#selectTeam").append(option);
-                    });
+                $.ajax({
+                    url: urlApiDept + request
+                    , type: "GET"
+                    , success: function (data) {
+                        console.log("GET AJAX ");
+                        $.each(data, function (index, dept) {
+                            console.log("each: ");
+                            var option = $("<option>", { text: dept.nombre, value: dept.idEquipo });
+                            $("#selectTeam").append(option);
+                        });
 
-                    $("#selectTeam").change(function () {
-                        var seleccion = $(this).val();
-                        console.log("seleccion: ");
-                        var request2 = "api/Equipos/" + seleccion;
+                        $("#selectTeam").change(function () {
+                            var seleccion = $(this).val();
+                            console.log("seleccion: ");
+                            var request2 = "api/Equipos/" + seleccion;
+
+                            $.ajax({
+                                url: urlApiDept + request2
+                                , type: "GET"
+                                , success: function (data) {
+                                    $("#formulario").empty();
+                                    console.log("Ajax Details Team");
+                                    var table = $("<table>", { id: "tableTeam" });
+                                    var thead = $("<thead>");
+                                    var trHead = $("<tr>");
+                                    var tdHead = $("<td>", { text: data.nombre });
+
+                                    var tbody = $("<tbody>");
+                                    var trBody = $("<tr>");
+                                    var tdBody = $("<td>", { text: "Champions: " + data.champions + "\n " + data.descripcion });
+                                    var image = $("<img>", { src: data.imagen });
+
+                                    trHead.append(tdHead);
+                                    thead.append(trHead);
+
+                                    tdBody.append(image);
+                                    trBody.append(tdBody);
+                                    tbody.append(trBody);
+
+                                    table.append(thead);
+                                    table.append(tbody);
+                                    $("#formulario").append(table);
+                                }
+                            });
+                        });
+                    }
+                });
+
+                var request3 = "api/Apuestas/";
+                $("#apuestasBtn").click(function () {
+                    var title = $("<h1>", { text: "Nueva apuesta" });
+                    $("#apuestas").append(title);
+
+                    var label1 = $("<label>", { for: "user", text: "Usuario" });
+                    var input1 = $("<input>", { id: "user", type: "text" });
+                    var label2 = $("<label>", { for: "madrid", text: "Real Madrid" });
+                    var input2 = $("<input>", { id: "madrid", type: "number" });
+                    var label3 = $("<label>", { for: "atleti", text: "Atletico de Madrid" });
+                    var input3 = $("<input>", { id: "atleti", type: "number" });
+                    var label4 = $("<label>", { for: "date", text: "Fecha" });
+                    var input4 = $("<input>", { id: "date", type: "text" });
+
+                    var buttonSend = $("<button>", { id: "buttonSend", type: "button", text: "Enviar apuesta" });
+
+                    $("#apuestas").append(label1);
+                    $("#apuestas").append(input1);
+                    $("#apuestas").append(label2);
+                    $("#apuestas").append(input2);
+                    $("#apuestas").append(label3);
+                    $("#apuestas").append(input3);
+                    $("#apuestas").append(label4);
+                    $("#apuestas").append(input4);
+                    $("#apuestas").append(buttonSend);
+
+                    $("#apuestasBtn").click(function () {
+                        var user = $("#user").val();
+                        var madrid = $("#madrid").val();
+                        var atleti = $("#atleti").val();
+                        var date = $("#date").val();
+                        var id = 0;
+
+                        var apuesta = new Apuesta(id, user, madrid + "-" + atleti, date);
+
+                        var apuestaJSON = JSON.stringify(apuesta);
 
                         $.ajax({
-                            url: urlApiDept + request2
-                            , type: "GET"
-                            , success: function (data) {
-                                $("#formulario").empty();
-                                console.log("Ajax Details Team");
-                                var table = $("<table>", { id: "tableTeam" });
-                                var thead = $("<thead>");
-                                var trHead = $("<tr>");
-                                var tdHead = $("<td>", { text: data.nombre });
-
-                                var tbody = $("<tbody>");
-                                var trBody = $("<tr>");
-                                var tdBody = $("<td>", { text: "Champions: " + data.champions + "\n " + data.descripcion });
-                                var image = $("<img>", {src: data.imagen});
-
-                                trHead.append(tdHead);
-                                thead.append(trHead);
-
-                                tdBody.append(image);
-                                trBody.append(tdBody);
-                                tbody.append(trBody);
-
-                                table.append(thead);
-                                table.append(tbody);
-                                $("#formulario").append(table);
+                            "url": urlApiDept + request3
+                            , "type": "POST"
+                            , "data": apuestaJSON
+                            , "contentType": "application/json"
+                            , "success": function (data) {
+                                var p = $("<p>", { text: "Apuesta insertada correctamente" });
+                                $("#apuestas").append(p);
                             }
                         });
                     });
-                }
+                });
             });
-        });
         </script>
     </body>
 </html>

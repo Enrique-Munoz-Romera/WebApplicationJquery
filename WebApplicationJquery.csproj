@@ -98,6 +98,7 @@
     <Content Include="JS\jquery-3.5.1.min.js" />
     <Content Include="jugadoresJQueryAjax.html" />
     <Content Include="MaestroDetalle.html" />
+    <Content Include="ObjetoApuesta.js" />
     <Content Include="objetoEmpleado.js" />
     <Content Include="objetoMatematicas.js" />
     <Content Include="Practica Empleados.html" />
