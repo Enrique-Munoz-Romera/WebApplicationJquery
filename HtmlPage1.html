@@ -23,6 +23,18 @@
         <div id="apuestas">
             <h1>Página de apuestas</h1>
             <h3> Local: Real Madrid, Visitante: Atlético de Madrid</h3>
+            <table id="tableApuesta">
+                <thead>
+                    <tr>
+                        <td>Usuario</td>
+                        <td>Resultado</td>
+                        <td>Fecha</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
             <button id="apuestasBtn">Realizar apuesta</button>
         </div>
         <script src="JS/jquery-3.5.1.min.js"></script>
@@ -80,7 +92,25 @@
                     }
                 });
 
-                var request3 = "api/Apuestas/";
+                var request3 = "api/Apuestas";
+                $.ajax({
+                    "url": urlApiDept + request3
+                    , "type": "GET"
+                    , "success": function (data) {
+                        $.each(data, function (index, dato) {
+                            var trBody = $("<tr>");
+                            var tdBody1 = $("<td>", { text: dato.usuario });
+                            var tdBody2 = $("<td>", { text: dato.resultado });
+                            var tdBody3 = $("<td>", { text: dato.fecha });
+
+                            $(trBody).append(tdBody1);
+                            $(trBody).append(tdBody2);
+                            $(trBody).append(tdBody3);
+                            $("#tableApuesta").append(trBody);
+                        });
+                    }
+                });
+
                 $("#apuestasBtn").click(function () {
                     var title = $("<h1>", { text: "Nueva apuesta" });
                     $("#apuestas").append(title);
@@ -117,8 +147,9 @@
 
                         var apuestaJSON = JSON.stringify(apuesta);
 
+                        var request4 = "api/Apuestas/";
                         $.ajax({
-                            "url": urlApiDept + request3
+                            "url": urlApiDept + request4
                             , "type": "POST"
                             , "data": apuestaJSON
                             , "contentType": "application/json"
