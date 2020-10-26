@@ -29,6 +29,7 @@
                         <td>Usuario</td>
                         <td>Resultado</td>
                         <td>Fecha</td>
+                        <td>Eliminar</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,10 +103,14 @@
                             var tdBody1 = $("<td>", { text: dato.usuario });
                             var tdBody2 = $("<td>", { text: dato.resultado });
                             var tdBody3 = $("<td>", { text: dato.fecha });
+                            var tdBody4 = $("<td>");
+                            var aBody4 = $("<a>", {text: "Eliminar apuesta", "data-idApuesta": dato.idApuesta, href: "#"});
 
                             $(trBody).append(tdBody1);
                             $(trBody).append(tdBody2);
                             $(trBody).append(tdBody3);
+                            $(tdBody4).append(aBody4);
+                            $(trBody).append(tdBody4);
                             $("#tableApuesta").append(trBody);
                         });
                     }
