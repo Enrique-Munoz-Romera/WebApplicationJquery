@@ -87,6 +87,76 @@
                                     table.append(thead);
                                     table.append(tbody);
                                     $("#formulario").append(table);
+
+                                    var table2 = $("<table>", { id: "tableTeam" });
+                                    var thead2 = $("<thead>");
+                                    var trHead2 = $("<tr>");
+                                    var tdHead2 = $("<td>", { text: "Nombre" });
+                                    var tdHead21 = $("<td>", { text: "Imagen" });
+                                    var tdHead22 = $("<td>", { text: "Detalles" });
+
+                                    var tbody2 = $("<tbody>");
+                                    var request6 = "api/Jugadores/JugadoresEquipo/" + data.idEquipo;
+                                    $.ajax({
+                                        url: urlApiDept + request6
+                                        , type: "GET"
+                                        , success: function (data) {
+                                            $.each(data, function (index, player) {
+                                                console.log("Player name: " + player.nombre);
+                                                console.log("Player image: " + player.imagen);
+                                                var trBody2 = $("<tr>");
+                                                var tdBody2 = $("<td>", { text: player.nombre});
+                                                var tdBody21 = $("<td>", { text: player.imagen });
+                                                var tdBody22 = $("<td>");
+                                                var buttonJugador = $("<button>", { type: "button", text: "Detalles", "data-nombreJugador": player.nombre });
+
+                                                trHead2.append(tdHead2);
+                                                trHead2.append(tdHead21);
+                                                trHead2.append(tdHead22);
+
+                                                trBody2.append(tdBody2);
+                                                trBody2.append(tdBody21);
+                                                tdBody22.append(buttonJugador);
+                                                trBody2.append(tdBody22);
+                                                tbody2.append(trBody2);
+
+                                                thead2.append(trHead2);
+                                                table2.append(thead2);
+                                                table2.append(tbody2);
+                                                $("#formulario").append(table2);
+                                                buttonJugador.click(function () {
+                                                    var nombreJugador = $(this).data("nombreJugador");
+                                                    var request7 = "api/Jugadores/BuscadorJugadores/" + nombreJugador;
+                                                    $.ajax({
+                                                        url: urlApiDept + request7
+                                                        , type: "GET"
+                                                        , success: function (data) {
+                                                            var table3 = $("<table>", { id: "tablePlayer" });
+                                                            var thead3 = $("<thead>");
+                                                            var trHead3 = $("<tr>");
+                                                            var tdHead3 = $("<td>", { text: data.nombre });
+
+                                                            var tbody3 = $("<tbody>");
+                                                            var trBody3 = $("<tr>");
+                                                            var tdBody3 = $("<td>", { text: data.imagen + "\n" + data.posicion + "\n Fecha de nacimiento: " + data.fechaNacimiento + "\n País: " + data.pais });
+
+                                                            trHead3.append(tdHead3);
+                                                            thead3.append(trHead3);
+
+                                                            trBody3.append(tdBody3);
+                                                            tbody3.append(trBody3);
+
+                                                            table3.append(thead3);
+                                                            table3.append(tbody3);
+                                                            $("#formulario").append(table3);
+                                                        }
+                                                    });
+                                                });
+                                            });
+
+                                        }
+                                    });
+                                    
                                 }
                             });
                         });
